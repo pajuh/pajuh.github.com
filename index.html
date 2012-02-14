@@ -4,13 +4,20 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>  
 <script>
  google.load("gdata", "1");
- google.setOnLoadCallback(getMyFeed);
  
  var myService;
  var feedUrl = "https://www.google.com/calendar/feeds/of9j56r6a0e0aip079chsrg1ns%40group.calendar.google.com/public/full";
-
+ var scope = 'https://www.google.com/calendar/feeds/'
  function setupMyService() {
    myService = new google.gdata.calendar.CalendarService('DojoAttender')
+   if (google.accounts.user.checkLogin(scope))
+   {
+	   	alert('juu are lokked in')
+   }
+   else
+   {
+	   google.accounts.user.login(scope)
+   }
  }
 
  function getMyFeed() {
@@ -60,8 +67,15 @@
 </script>
 </head>
 <body>
-</body>
+    <img src="dojo_port.jpg" />
 <h1>Upcoming dojos</h1>
 <div id="events"></div>
 <input type="button" onClick="google.accounts.user.login('https://www.google.com/calendar/feeds/')" value="Login to Google" />
+<script type="text/javascript">
+    if (google.accounts.user.checkLogin(scope))
+    {
+        getMyFeed();
+    } 
+</script>
+</body>
 </html>

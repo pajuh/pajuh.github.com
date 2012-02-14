@@ -1,0 +1,58 @@
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>  
+<script>
+
+function makeRequest() {
+    alert("edxecute")
+    var request = gapi.client.calendar.events.list({
+      'calendarId': 'of9j56r6a0e0aip079chsrg1ns%40group.calendar.google.com'
+    });
+    request.execute(function(response) {
+      alert(response)
+    });
+  }
+
+function load() {
+//	gapi.client.setApiKey('AIzaSyCAzuGouZwwOGJhUN47384Yoo-Y4Fno6vE')
+    gapi.client.load('casdfasdfasdfal', 'v1', function(response) {alert('done')});
+    alert('lol')
+  }
+  
+
+ var myService;
+ var feedUrl = "https://www.google.com/calendar/feeds/of9j56r6a0e0aip079chsrg1ns%40group.calendar.google.com/public/full";
+
+ function setupMyService() {
+   myService = new google.gdata.calendar.CalendarService('exampleCo-exampleApp-1');
+ }
+
+ function getMyFeed() {
+   setupMyService();
+
+   myService.getEventsFeed(feedUrl, handleMyFeed, handleError);
+ }
+ 
+ function handleMyFeed(myResultsFeedRoot) {
+	 var text = "<p>"
+		$.each(myResultsFeedRoot.feed.entry, function(index, eventEntry) {
+			text += eventEntry.getTitle().getText() + "<br>"
+		})
+		text += "</p>"
+		$("#events").append(text)
+		alert("done")
+	}
+
+	function handleError(e) {
+	  alert("There was an error!");
+	  alert(e.cause ? e.cause.statusText : e.message);
+	}
+ 
+</script>
+<script src="https://apis.google.com/js/client.js?onload=load"></script>
+</head>
+<body>
+</body>
+<h1>Upcoming dojos</h1>
+<div id="events"></div>
+</html>
