@@ -1,81 +1,22 @@
 <html>
 <head>
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>  
-<script>
- google.load("gdata", "1");
- 
- var myService;
- var feedUrl = "https://www.google.com/calendar/feeds/of9j56r6a0e0aip079chsrg1ns%40group.calendar.google.com/public/full";
- var scope = 'https://www.google.com/calendar/feeds/'
- function setupMyService() {
-   myService = new google.gdata.calendar.CalendarService('DojoAttender')
-   if (google.accounts.user.checkLogin(scope))
-   {
-	   	alert('juu are lokked in')
-   }
-   else
-   {
-	   google.accounts.user.login(scope)
-   }
- }
-
- function getMyFeed() {
-   setupMyService();
-
-   myService.getEventsFeed(feedUrl, createEventList, handleError);
- }
- 
- function addParticipant(entryId) {
-	 var query = new google.gdata.calendar.CalendarEventQuery("https://www.google.com/calendar/feeds/of9j56r6a0e0aip079chsrg1ns%40group.calendar.google.com/private/full")
-	 query.setFullTextQuery(entryId);
-		 
-	 myService.getEventsFeed(query, function(resultFeed) {
-			$.each(resultFeed.feed.entry, function(index, eventEntry) {
-				if (eventEntry.getTitle().getText() == entryId) {
-					alert("updating event " + eventEntry.getTitle().getText())
-					eventEntry.setTitle(google.gdata.Text.create("Dididam"))
-//					eventEntry.addParticipant('email : foobar@foobar.com')
-					eventEntry.updateEntry(function(result) {
-						alert("updating event " + entryId + $("#addParticipant" + entryId).val())
-        			}, handleError)
-				}
-			})
-	 }, handleError);
- }
- 
- function createEventList(myResultsFeedRoot) {
-	 	var text = ''
-		$.each(myResultsFeedRoot.feed.entry, function(index, eventEntry) {
-			var entryId = eventEntry.getTitle().getText()
-	 		text += "<div class='event'>"
-			text += eventEntry.getTitle().getText() + "<br>Participants:<br>"
-			$.each(eventEntry.getParticipants(), function(index, participant) {
-				text += participant.getValueString() + "," + participant.getEmail() + "<br>"
-			})
-			text += "<input type='text' id='addParticipant" + entryId + "'/><input type='button' onClick='addParticipant(\"" + entryId +"\");' value='Join Dojo' />"
-			text += "</div>"
-		})
-		$("#events").append(text)
-	}
-
-	function handleError(e) {
-	  alert("There was an error!");
-	  alert(e.cause ? e.cause.statusText : e.message);
-	}
- 
-</script>
-</head>
+<link rel="stylesheet" type="text/css" href="dojosite.css" /></head>
 <body>
-    <img src="dojo_port.jpg" />
-<h1>Upcoming dojos</h1>
-<div id="events"></div>
-<input type="button" onClick="google.accounts.user.login('https://www.google.com/calendar/feeds/')" value="Login to Google" />
-<script type="text/javascript">
-    if (google.accounts.user.checkLogin(scope))
-    {
-        getMyFeed();
-    } 
-</script>
+<div class="content">
+<h1>Dojos @ Houston Inc.</h1>
+<table class="eventTable">
+	<tr><td>
+<p>
+Houstonin j&auml;rjest&auml;m&auml;t koodidojot ovat kaikille julkisia. Jos haluat mukaan, niin katso seuraavan dojon ajankohta ja laita meili osoitteeseen <a href="mailto:dojos@houston-in.com">dojos@houston-inc.com</a>
+</p>
+<p>
+Dojoista voit lukea lis&auml;&auml; <a href="http://thehoustonway.com/2011/02/24/houston-way-dojo-1/">blogistamme.</a>
+</p>
+<div class="events">
+	<div class="event">Seuraavan dojon ajankohta ei ole viel&auml; tiedossa.</div>
+</div>
+	</td></tr>
+</table>
+</div>
 </body>
 </html>
